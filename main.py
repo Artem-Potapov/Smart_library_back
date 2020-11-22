@@ -12,9 +12,13 @@ books = json.load(file)
 @app.route('/books')
 def give_books():
     filters = json.loads(request.args.get('filters', '{}'))
-    print(filters)
-    _books = dict(books)
-    return _books
+    _books = []
+
+    for book in books:
+        if not filters.get('author') or book.get('author') == filters.get('author'):
+            _books.append(book)
+
+    return json.dumps(_books)
 
 
 @app.route('/authors')
