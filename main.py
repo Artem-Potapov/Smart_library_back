@@ -13,10 +13,6 @@ def give_books():
     filters = json.loads(request.args.get('filters', '{}'))
     _books = books
 
-    # for book in books:
-    #     if not filters.get('author') or book.get('author') == filters.get('author'):
-    #         _books.append(book)
-
     if filters.get('author'):
         _books = list(filter(lambda book: book.get('author') == filters.get('author'), _books))
 
