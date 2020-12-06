@@ -21,7 +21,10 @@ def give_books():
 
 @app.route('/authors')
 def come():
-    return json.dumps([book['author'] for book in books])
+    authors = set()
+    for book in books:
+        authors.add(book['author'])
+    return json.dumps(list(authors))
 
 
 @app.route('/test')
