@@ -18,6 +18,8 @@ def give_books():
         _books = list(filter(lambda book: book.get('author') == filters.get('author'), _books))
     if filters.get('genre'):
         _books = list(filter(lambda book: book.get('genre') == filters.get('genre'), _books))
+    if filters.get('rating'):
+        _books = list(filter(lambda book: book.get('rate') > int(filters.get('rating')), _books))
     return json.dumps(_books)
 
 
