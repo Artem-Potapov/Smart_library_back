@@ -2,12 +2,21 @@ from flask import Flask
 import json
 from flask_cors import CORS
 from flask import request
+from urllib.parse import unquote
+import os
 
-file = open('books.json', 'r', encoding='utf-8')
+file = open('boos.json', 'r', encoding='utf-8')
 app = Flask(__name__)
 CORS(app)
 books = json.load(file)
 
+
+@app.route('/upload')
+def load():
+    books = request.args.get("books", '[]')
+    book_file = open("boos.json", "w+")
+    book_file.write(books)
+    return ''
 
 @app.route('/books')
 def give_books():
@@ -19,7 +28,7 @@ def give_books():
     if filters.get('genre'):
         _books = list(filter(lambda book: book.get('genre') == filters.get('genre'), _books))
     if filters.get('rating'):
-        _books = list(filter(lambda book: book.get('rate') > int(filters.get('rating')), _books))
+        _books = list(filter(lambda book: book.get('rate') >= int(filters.get('rating')), _books))
     return json.dumps(_books)
 
 
@@ -47,12 +56,20 @@ def give_ages():
     return json.dumps(list(ages))
 
 
-@app.route('/rates_from5')
-def give_rate_from5():
-    ageper5 = set()
-    for book in books:
-        ageper5.add(book['rate_f5'])
-    return json.dumps(list(ageper5))
+@app.route('/favbooks')
+def give_favbooks():
+    print(unquote(request.args.get('testresult')))
+    filters = json.loads(unquote(request.args.get('testresult')))
+
+    _books = books
+    if filters.get('authors') and filters.get('authors')[0] != 'all':
+        _books = list(filter(lambda book: book.get('author') in filters.get('authors'), _books))
+    if filters.get('genres') and filters.get('genres')[0] != 'all':
+        _books = list(filter(lambda book: book.get('genre') in filters.get('genres'), _books))
+    if filters.get('age'):
+        _books = list(filter(lambda book: int(book.get('age')[0:-1]) <= filters.get('age'), _books))
+
+    return json.dumps(_books)
 
 
 app.run()
