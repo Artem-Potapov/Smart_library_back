@@ -20,6 +20,7 @@ def load():
 @app.route('/books')
 def give_books():
     books = json.load(file)
+    file.seek(0)
     filters = json.loads(request.args.get('filters', '{}'))
     _books = books
 
@@ -35,6 +36,7 @@ def give_books():
 @app.route('/authors')
 def come():
     books = json.load(file)
+    file.seek(0)
     authors = set()
     for book in books:
         authors.add(book['author'])
@@ -44,6 +46,7 @@ def come():
 @app.route('/genres')
 def give_genre():
     books = json.load(file)
+    file.seek(0)
     genre = set()
     for book in books:
         genre.add(book['genre'])
@@ -53,6 +56,7 @@ def give_genre():
 @app.route('/ages')
 def give_ages():
     books = json.load(file)
+    file.seek(0)
     ages = set()
     for book in books:
         ages.add(book['age'])
@@ -62,6 +66,7 @@ def give_ages():
 @app.route('/favbooks')
 def give_favbooks():
     books = json.load(file)
+    file.seek(0)
     print(unquote(request.args.get('testresult')))
     filters = json.loads(unquote(request.args.get('testresult')))
 
