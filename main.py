@@ -13,7 +13,7 @@ CORS(app)
 @app.route('/upload')
 def load():
     books = request.args.get("books", '[]')
-    book_file = open("boos.json", "w+")
+    book_file = open("books.json", "w+")
     book_file.write(books)
     return ''
 
@@ -76,4 +76,4 @@ def give_favbooks():
     return json.dumps(_books)
 
 
-app.run()
+app.run('0.0.0.0')
