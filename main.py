@@ -5,7 +5,7 @@ from flask import request
 from urllib.parse import unquote
 import os
 
-file = open('boos.json', 'r', encoding='utf-8')
+file = open('books.json', 'r', encoding='utf-8')
 app = Flask(__name__)
 CORS(app)
 
